@@ -315,11 +315,12 @@ public class UIManager : MonoBehaviour
             {
                 i.SetActive(false);
             }
-            FSNoBoard_Text.text = "Free Spins: \n" + FreeSpins;
+            // FSNoBoard_Text.text = "Free Spins: \n" + FreeSpins;
+            FSNoBoard_Text.text = FreeSpins.ToString();
             FSBoard.SetActive(toggle);
             multiplierNo_Text.text = "1";          ///
             FSTopBar.SetActive(toggle);
-            FSTotalWinnnings_Text.text = "Total Win:\n 0 ";
+            FSTotalWinnnings_Text.text = "0";
             FSWinningsBoard.SetActive(toggle);
         }
         else

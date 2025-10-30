@@ -231,12 +231,12 @@ public class SlotBehaviour : MonoBehaviour
     while (i < spinchances)
     {
       _uiManager.FreeSpins--;
-      _uiManager.FSNoBoard_Text.text = "Free Spins: \n" + _uiManager.FreeSpins.ToString();
+      _uiManager.FSNoBoard_Text.text = _uiManager.FreeSpins.ToString();
       StartSlots();
       yield return _tweenRoutine;
       yield return new WaitForSeconds(_spinDelay);
       totalFSwin = _socketManager.resultData.freeSpinAccBalance;     //
-      FSTotalWinnnings_Text.text = "Total Win:\n" + totalFSwin.ToString();
+      FSTotalWinnnings_Text.text = totalFSwin.ToString();
       i++;
     }
     _uiManager.FreeSpinBoardToggle(false);
@@ -808,7 +808,7 @@ public class SlotBehaviour : MonoBehaviour
     }
     _alltweens[index].Kill();
     slotTransform.localPosition = new Vector2(slotTransform.localPosition.x, -329f);
-    _alltweens[index] = slotTransform.DOLocalMoveY(-769.1f, 0.5f).SetEase(Ease.OutElastic);
+    _alltweens[index] = slotTransform.DOLocalMoveY(-430f, 0.5f).SetEase(Ease.OutElastic);
     if (!isStop)
     {
       yield return new WaitForSeconds(0.2f);
