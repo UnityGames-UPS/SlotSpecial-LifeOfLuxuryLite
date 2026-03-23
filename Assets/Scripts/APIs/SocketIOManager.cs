@@ -19,7 +19,7 @@ public class SocketIOManager : MonoBehaviour
   private Socket gameSocket;
   protected string NameSpace = "playground";
   protected string SocketURI = null;
-  protected string TestSocketURI = "http://localhost:5000/";
+  protected string TestSocketURI = "https://devrealtime.dingdinghouse.com/";
   protected string gameID = "SL-LLL";
   // protected string gameID = "";
   private SocketManager manager;
@@ -462,7 +462,8 @@ public class FreeSpin
   public int triggerCount { get; set; }
   public int freeSpinCount { get; set; }
   public int incrementCount { get; set; }
-  public List<DiamondMultiplier> diamondMultiplier { get; set; }
+  // public List<DiamondMultiplier> diamondMultiplier { get; set; }
+  public int diamondMultiplier;
 }
 
 [Serializable]

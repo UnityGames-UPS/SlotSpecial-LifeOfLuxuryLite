@@ -454,16 +454,43 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        numberOfDiamonds_Text.text = null;
-        multiplier_Text.text = null;
-        for (int i = 0; i < _socketManager.features.freeSpin.diamondMultiplier.Count; i++)
+        string desc = paylines.symbols[7].description;
+
+        string[] lines = desc.Split('\n');
+
+        numberOfDiamonds_Text.text = "";
+        multiplier_Text.text = "";
+
+        for (int i = 1; i < lines.Length; i++)
         {
-            DiamondMultiplier DM = _socketManager.features.freeSpin.diamondMultiplier[i];
-            numberOfDiamonds_Text.text += DM.range[0].ToString() + "-" + DM.range[1].ToString();
-            numberOfDiamonds_Text.text += "\n";
-            multiplier_Text.text += DM.multiplier.ToString();
-            multiplier_Text.text += "\n";
+            string line = lines[i].Trim();
+
+            if (string.IsNullOrEmpty(line))
+                continue;
+
+            string[] parts = line.Split('\t');
+
+            if (parts.Length < 2)
+                continue;
+
+            string range = parts[0].Trim();
+            string multiplier = parts[1].Trim();
+
+            range = System.Text.RegularExpressions.Regex.Replace(range, @"\s+", " ");
+
+            numberOfDiamonds_Text.text += range + "\n";
+            multiplier_Text.text += multiplier + "\n";
         }
+        // numberOfDiamonds_Text.text = null;
+        // multiplier_Text.text = null;
+        // for (int i = 0; i < _socketManager.features.freeSpin.diamondMultiplier.Count; i++)
+        // {
+        //     DiamondMultiplier DM = _socketManager.features.freeSpin.diamondMultiplier[i];
+        //     numberOfDiamonds_Text.text += DM.range[0].ToString() + "-" + DM.range[1].ToString();
+        //     numberOfDiamonds_Text.text += "\n";
+        //     multiplier_Text.text += DM.multiplier.ToString();
+        //     multiplier_Text.text += "\n";
+        // }
     }
 
     private void CallOnExitFunction()
