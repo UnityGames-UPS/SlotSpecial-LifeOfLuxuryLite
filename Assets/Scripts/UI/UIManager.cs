@@ -3,6 +3,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text Scatter_Text;
     [SerializeField] private TMP_Text numberOfDiamonds_Text;
     [SerializeField] private TMP_Text multiplier_Text;
+    [SerializeField] private TMP_Text numberOfDiamonds2_Text;
+    [SerializeField] private TMP_Text multiplier2_Text;
 
     [Header("Sound/Music UI References")]
     [SerializeField] private Button Sound_Button;
@@ -460,6 +463,12 @@ public class UIManager : MonoBehaviour
 
         numberOfDiamonds_Text.text = "";
         multiplier_Text.text = "";
+        numberOfDiamonds2_Text.text = "";
+        multiplier2_Text.text = "";
+
+        // First, collect all valid lines
+        List<string> validRanges = new List<string>();
+        List<string> validMultipliers = new List<string>();
 
         for (int i = 1; i < lines.Length; i++)
         {
@@ -478,19 +487,27 @@ public class UIManager : MonoBehaviour
 
             range = System.Text.RegularExpressions.Regex.Replace(range, @"\s+", " ");
 
-            numberOfDiamonds_Text.text += range + "\n";
-            multiplier_Text.text += multiplier + "\n";
+            validRanges.Add(range);
+            validMultipliers.Add(multiplier);
         }
-        // numberOfDiamonds_Text.text = null;
-        // multiplier_Text.text = null;
-        // for (int i = 0; i < _socketManager.features.freeSpin.diamondMultiplier.Count; i++)
-        // {
-        //     DiamondMultiplier DM = _socketManager.features.freeSpin.diamondMultiplier[i];
-        //     numberOfDiamonds_Text.text += DM.range[0].ToString() + "-" + DM.range[1].ToString();
-        //     numberOfDiamonds_Text.text += "\n";
-        //     multiplier_Text.text += DM.multiplier.ToString();
-        //     multiplier_Text.text += "\n";
-        // }
+
+        // Split the data between two text fields
+        int totalItems = validRanges.Count;
+        int halfIndex = totalItems / 2;
+
+        // First half goes to original text fields
+        for (int i = 0; i < halfIndex; i++)
+        {
+            numberOfDiamonds_Text.text += validRanges[i] + "\n";
+            multiplier_Text.text += validMultipliers[i] + "\n";
+        }
+
+        // Second half goes to the new text fields
+        for (int i = halfIndex; i < totalItems; i++)
+        {
+            numberOfDiamonds2_Text.text += validRanges[i] + "\n";
+            multiplier2_Text.text += validMultipliers[i] + "\n";
+        }
     }
 
     private void CallOnExitFunction()
