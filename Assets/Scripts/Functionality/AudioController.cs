@@ -42,14 +42,15 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    internal void PlayDiamondAudio(){
-        diamondSoundAudioSource.loop=false;
+    internal void PlayDiamondAudio()
+    {
+        diamondSoundAudioSource.loop = false;
         diamondSoundAudioSource.Play();
     }
 
     internal void SwitchBGSound(bool isbonus)
     {
-        if(isbonus)
+        if (isbonus)
         {
             if (bonusBGAudioSource) bonusBGAudioSource.enabled = true;
             if (bg_adudio) bg_adudio.enabled = false;
@@ -127,6 +128,28 @@ public class AudioController : MonoBehaviour
                 audioPlayer_button.mute = toggle;
                 audioSpin_button.mute = toggle;
                 break;
+        }
+    }
+
+    internal void ToggleGameAudios(bool toggle)
+    {
+        if (toggle)
+        {
+            bg_adudio.mute = true;
+            audioPlayer_wl.mute = true;
+            audioPlayer_button.mute = true;
+            audioSpin_button.mute = true;
+            bonusBGAudioSource.mute = true;
+            diamondSoundAudioSource.mute = true;
+        }
+        if (!toggle)
+        {
+            bg_adudio.mute = false;
+            audioPlayer_wl.mute = false;
+            audioPlayer_button.mute = false;
+            audioSpin_button.mute = false;
+            bonusBGAudioSource.mute = false;
+            diamondSoundAudioSource.mute = false;
         }
     }
 

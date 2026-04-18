@@ -28927,7 +28927,7 @@ MonoBehaviour:
   diamondSoundAudioSource: {fileID: 2052266670}
   clips:
   - {fileID: 8300000, guid: 21ea2d3fec23d4f1aa91d12fa64301c6, type: 3}
-  - {fileID: 8300000, guid: b9ddb072b0d36461bb165f329fc332fd, type: 3}
+  - {fileID: 8300000, guid: 55959275600f244a59b6864214881627, type: 3}
   - {fileID: 8300000, guid: 77ac51a01dd0a44778c7a92989f632f9, type: 3}
   - {fileID: 8300000, guid: 2618d0c886b6743a79484b7c79f4c612, type: 3}
   - {fileID: 8300000, guid: dbef658880366430c80804eaf69468a4, type: 3}

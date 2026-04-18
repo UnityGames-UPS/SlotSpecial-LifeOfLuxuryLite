@@ -84,6 +84,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AudioController _audioController;
     [SerializeField] private SlotBehaviour _slotBehaviour;
     [SerializeField] private SocketIOManager _socketManager;
+    [SerializeField] private JSFunctCalls jsFunctCalls;
 
     private bool isMusic = true;
     private bool isSound = true;
@@ -95,6 +96,12 @@ public class UIManager : MonoBehaviour
 
     internal int FreeSpins;
     private int paytablePageCounter;
+
+    private void Awake()
+    {
+        if (jsFunctCalls != null)
+            jsFunctCalls.RegisterVisibilityListener(gameObject.name);
+    }
 
     private void Start()
     {
@@ -580,5 +587,15 @@ public class UIManager : MonoBehaviour
             if (_audioController) _audioController.ToggleMute(false, "wl");
             isSound = true;
         }
+    }
+
+    public void OnFocusChanged(string value)
+    {
+        bool focused = value == "1";
+        if (focused)
+            _audioController.ToggleGameAudios(false);
+        else
+            _audioController.ToggleGameAudios(true);
+        //socketManager?.HandleFusChanocge(focused);
     }
 }

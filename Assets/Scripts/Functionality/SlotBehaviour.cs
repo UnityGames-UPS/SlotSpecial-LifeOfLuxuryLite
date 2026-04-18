@@ -243,12 +243,12 @@ public class SlotBehaviour : MonoBehaviour
     // if (_socketManager.resultData.payload.winAmount > 0)
     if (totalFSwin > 0)
     {
-      if (_totalWinText) _totalWinText.text = _socketManager.resultData.payload.winAmount.ToString("F3");
+      if (_totalWinText && _socketManager.resultData.payload.winAmount > 0) { _totalWinText.text = _socketManager.resultData.payload.winAmount.ToString("F3"); }
       _checkPopups = true;
       // _uiManager.OpenFSTotalWin(_socketManager.resultData.payload.winAmount);
       _uiManager.OpenFSTotalWin(totalFSwin);
       yield return new WaitUntil(() => !_checkPopups);
-      _totalWinText.text = _socketManager.resultData.freeSpinAccBalance.ToString("F3");
+      if (_socketManager.resultData.freeSpinAccBalance > 0) _totalWinText.text = _socketManager.resultData.freeSpinAccBalance.ToString("F3");
       yield return new WaitForSeconds(0.5f);
     }
     if (_wasAutoSpinOn)
@@ -477,7 +477,11 @@ public class SlotBehaviour : MonoBehaviour
       if (FSpayout != _socketManager.resultData.payload.winAmount)
       {
         // FSTotalWinnnings_Text.text = "Total Win\n" + totalFSwin.ToString("F3");
-        _totalWinText.text = (_socketManager.resultData.payload.winAmount - FSpayout).ToString("F3");
+        double winAmount = _socketManager.resultData.payload.winAmount - FSpayout;
+        if (winAmount > 0)
+        {
+          _totalWinText.text = winAmount.ToString("F3");
+        }
       }
       FSpayout = _socketManager.resultData.payload.winAmount;
       diamondCount = _socketManager.resultData.diamondCount;
@@ -487,6 +491,7 @@ public class SlotBehaviour : MonoBehaviour
     if (_socketManager.resultData.payload.wins.Count > 0)
     {
       StartCoroutine(WinningLines(_socketManager.resultData.payload.wins));
+      CheckWinAudio();
     }
     else
     {
@@ -552,7 +557,7 @@ public class SlotBehaviour : MonoBehaviour
       _bottomBarText.text = "CLICK PLAY TO START!";
       _spinDelay = 0.2f;
     }
-    if (_totalWinText) _totalWinText.text = _socketManager.resultData.payload.winAmount.ToString("F3");
+    if (_totalWinText && _socketManager.resultData.payload.winAmount > 0) _totalWinText.text = _socketManager.resultData.payload.winAmount.ToString("F3");
     _balanceTween?.Kill();
     if (_balanceText) _balanceText.text = _socketManager.playerdata.balance.ToString("F3");
 
@@ -663,7 +668,7 @@ public class SlotBehaviour : MonoBehaviour
 
   void CheckWinAudio()
   {
-    if (_socketManager.resultData.payload.winAmount > 0 && _socketManager.resultData.payload.winAmount < _currentTotalBet * 5 && _socketManager.resultData.gameData.lines.Count == 0)
+    if (_socketManager.resultData.payload.winAmount > 0 && _socketManager.resultData.payload.winAmount < _currentTotalBet * 5)
     {
       _audioController.PlayWLAudio("win");
     }
