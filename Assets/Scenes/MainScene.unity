@@ -5539,6 +5539,7 @@ MonoBehaviour:
   _audioController: {fileID: 1030743558465206379}
   _slotBehaviour: {fileID: 2046803210}
   _socketManager: {fileID: 500036492}
+  jsFunctCalls: {fileID: 1148238420}
 --- !u!1 &391511263
 GameObject:
   m_ObjectHideFlags: 0

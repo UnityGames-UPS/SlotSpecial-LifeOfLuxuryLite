@@ -21,6 +21,7 @@ public class AudioController : MonoBehaviour
 
     internal void CheckFocusFunction(bool focus, bool IsSpinning)
     {
+        Debug.Log("Focus changed: " + focus);
         if (!focus)
         {
             bg_adudio.Pause();
@@ -133,6 +134,7 @@ public class AudioController : MonoBehaviour
 
     internal void ToggleGameAudios(bool toggle)
     {
+        Debug.Log("Toggling game audios: " + toggle);
         if (toggle)
         {
             bg_adudio.mute = true;
@@ -142,7 +144,7 @@ public class AudioController : MonoBehaviour
             bonusBGAudioSource.mute = true;
             diamondSoundAudioSource.mute = true;
         }
-        if (!toggle)
+        else
         {
             bg_adudio.mute = false;
             audioPlayer_wl.mute = false;

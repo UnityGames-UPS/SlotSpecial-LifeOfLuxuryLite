@@ -99,7 +99,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (jsFunctCalls != null)
+        //if (jsFunctCalls != null)
             jsFunctCalls.RegisterVisibilityListener(gameObject.name);
     }
 
@@ -572,6 +572,7 @@ public class UIManager : MonoBehaviour
 
     private void ToggleSound()
     {
+        Debug.Log("Toggle sound called");
         _audioController.PlayButtonAudio();
         if (isSound)
         {
