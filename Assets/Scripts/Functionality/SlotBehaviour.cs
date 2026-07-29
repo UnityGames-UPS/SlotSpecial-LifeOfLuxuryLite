@@ -272,6 +272,13 @@ public class SlotBehaviour : MonoBehaviour
       _uiManager.LowBalPopup();
   }
 
+  internal void UpdateBalanceDisplay(double newBalance)
+  {
+    _currentBalance = newBalance;
+    if (_balanceText) _balanceText.text = newBalance.ToString("F3");
+    CompareBalance();
+  }
+
   private void ChangeBet(bool IncDec)
   {
     if (_audioController) _audioController.PlayButtonAudio();
@@ -354,7 +361,7 @@ public class SlotBehaviour : MonoBehaviour
 
   private void OnApplicationFocus(bool focus)
   {
-    _audioController.CheckFocusFunction(focus, _checkSpinAudio);
+    _audioController.SetMuteAll(!focus);
   }
 
   #region SlotSpin

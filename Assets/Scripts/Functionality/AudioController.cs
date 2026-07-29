@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
@@ -11,6 +12,9 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioClip[] clips;
     [SerializeField] private AudioClip diamondAudioClip;
 
+    private bool isForceMuted = false;
+    private readonly Dictionary<AudioSource, bool> preFocusMuteState = new Dictionary<AudioSource, bool>();
+
     private void Start()
     {
         if (bg_adudio) bg_adudio.Play();
@@ -19,28 +23,40 @@ public class AudioController : MonoBehaviour
         diamondSoundAudioSource.clip = diamondAudioClip;
     }
 
-    internal void CheckFocusFunction(bool focus, bool IsSpinning)
+    private IEnumerable<AudioSource> AllSources()
     {
-        Debug.Log("Focus changed: " + focus);
-        if (!focus)
+        yield return bg_adudio;
+        yield return audioPlayer_wl;
+        yield return audioPlayer_button;
+        yield return audioSpin_button;
+        yield return bonusBGAudioSource;
+        yield return diamondSoundAudioSource;
+    }
+
+    // Focus-driven — called from BOTH OnFocusChanged (JS path) and OnApplicationFocus (native path).
+    internal void SetMuteAll(bool forceMute)
+    {
+        if (forceMute == isForceMuted) return;
+        isForceMuted = forceMute;
+
+        foreach (var source in AllSources())
         {
-            bg_adudio.Pause();
-            audioPlayer_wl.Pause();
-            audioPlayer_button.Pause();
-        }
-        else
-        {
-            if (!bg_adudio.mute) bg_adudio.UnPause();
-            if (IsSpinning)
+            if (source == null) continue;
+            if (forceMute)
             {
-                if (!audioPlayer_wl.mute) audioPlayer_wl.UnPause();
+                preFocusMuteState[source] = source.mute;
+                source.mute = true;
             }
             else
             {
-                StopWLAaudio();
+                source.mute = preFocusMuteState.TryGetValue(source, out bool prev) ? prev : source.mute;
             }
-            if (!audioPlayer_button.mute) audioPlayer_button.UnPause();
         }
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        SetMuteAll(!focus);
     }
 
     internal void PlayDiamondAudio()
@@ -129,29 +145,6 @@ public class AudioController : MonoBehaviour
                 audioPlayer_button.mute = toggle;
                 audioSpin_button.mute = toggle;
                 break;
-        }
-    }
-
-    internal void ToggleGameAudios(bool toggle)
-    {
-        Debug.Log("Toggling game audios: " + toggle);
-        if (toggle)
-        {
-            bg_adudio.mute = true;
-            audioPlayer_wl.mute = true;
-            audioPlayer_button.mute = true;
-            audioSpin_button.mute = true;
-            bonusBGAudioSource.mute = true;
-            diamondSoundAudioSource.mute = true;
-        }
-        else
-        {
-            bg_adudio.mute = false;
-            audioPlayer_wl.mute = false;
-            audioPlayer_button.mute = false;
-            audioSpin_button.mute = false;
-            bonusBGAudioSource.mute = false;
-            diamondSoundAudioSource.mute = false;
         }
     }
 
